@@ -1,0 +1,14 @@
+CREATE DATABASE flybook;
+USE flybook;
+CREATE TABLE usuarios (
+	id VARCHAR(32) DEFAULT uuid(),
+	nombre VARCHAR(25) NOT NULL,
+        apellido VARCHAR(25) NOT NULL,
+        docid VARCHAR(25) NOT NULL UNIQUE,
+        fecha_nacimiento DATETIME NOT NULL,
+	email VARCHAR(255) NOT NULL UNIQUE,
+	password VARCHAR(255) NOT NULL,
+	fecha_registro DATETIME NOT NULL,
+        estado TINYINT NOT NULL,
+	PRIMARY KEY(id)
+);
