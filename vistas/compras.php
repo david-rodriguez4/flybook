@@ -18,13 +18,12 @@ include_once 'plantilla/navbar.inc.php';
         <tr>
             <th>Título</th>
             <th>Precio</th>
-            <th>Fecha</th>
-            <th>Vendido</th>
+            <th>Fecha de compra</th>
         </tr>
         </thead>
         <tbody>
         <?php
-        EscritorLibros::escribir_mis_publicaciones();
+        EscritorLibros::escribir_mis_compras();
         ?>
         </tbody>
     </table>

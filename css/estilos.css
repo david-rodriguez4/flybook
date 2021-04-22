@@ -94,6 +94,16 @@ body {
     transition: all 0.333s ease-out 0s;
 }
 
+.modal .is-success {
+    background: #383838 !important;
+    transition: all 0.333s ease-out 0s;
+}
+
+.modal .is-light {
+    background: #EDEDED !important;
+    transition: all 0.333s ease-out 0s;
+}
+
 .panel-block .is-fullwidth {
     margin: 0 !important;
 }
@@ -101,6 +111,14 @@ body {
 .panel-block .is-light:hover {
     background: #383838 !important;
     color: #EDEDED !important;
+}
+
+.modal .is-light:hover {
+    background: rgba(0, 0, 0, .2) !important;
+}
+
+.modal .is-success:hover {
+    background: rgba(0, 0, 0, .5) !important;
 }
 
 .icon {
@@ -211,6 +229,7 @@ figure.zoom {
     margin: auto;
     overflow: hidden;
 }
+
 .image-box img {
     max-width: 100%;
     transition: all 0.3s;
@@ -225,4 +244,12 @@ figure.zoom {
 
 .resbusc {
     padding-bottom: 2rem !important;
+}
+
+.modal-card-head {
+    background: #EDEDED !important;
+}
+
+.modal-card-foot {
+    background: #ffffff !important;
 }

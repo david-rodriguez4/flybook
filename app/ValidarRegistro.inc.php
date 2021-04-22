@@ -10,22 +10,19 @@ class ValidarRegistro
 
     private $nombre;
     private $apellido;
-    private $docid;
-    private $fecha_nacimiento;
     private $email;
     private $clave;
+    private $direccion;
     private $estado;
 
     private $error_nombre;
     private $error_apellido;
-    private $error_docid;
-    private $error_fn;
     private $error_email;
     private $error_clave1;
     private $error_clave2;
-    private $error_estado;
+    private $error_direccion;
 
-    public function __construct($nombre, $apellido, $docid, $fecha_nacimiento, $email, $clave1, $clave2, $estado, $conexion)
+    public function __construct($nombre, $apellido, $email, $clave1, $clave2, $direccion, $conexion)
     {
 
         $this->aviso_inicio = "<div class='panel-block'><div class='message is-danger'><div class='message-body' role='alert'>";
@@ -33,20 +30,17 @@ class ValidarRegistro
 
         $this->nombre = "";
         $this->apellido = "";
-        $this->docid = "";
-        $this->fecha_nacimiento = "";
         $this->email = "";
         $this->clave = "";
+        $this->direccion = "";
         $this->estado = "";
 
         $this->error_nombre = $this->validar_nombre($nombre);
         $this->error_apellido = $this->validar_apellido($apellido);
-        $this->error_docid = $this->validar_docid($docid);
-        $this->error_fn = $this->validar_fn($fecha_nacimiento);
         $this->error_email = $this->validar_email($conexion, $email);
         $this->error_clave1 = $this->validar_clave1($clave1);
         $this->error_clave2 = $this->validar_clave2($clave1, $clave2);
-        $this->error_estado = $this->validar_estado($estado);
+        $this->error_direccion = $this->validar_direccion($direccion);
 
         if ($this->error_clave1 === "" && $this->error_clave2 === "") {
             $this->clave = $clave1;
@@ -78,28 +72,6 @@ class ValidarRegistro
             return "Debes escribir tu apellido.";
         } else {
             $this->apellido = $apellido;
-        }
-        return "";
-    }
-
-    private function validar_docid($docid)
-    {
-        if (!$this->variable_iniciada($docid)) {
-            return "Debes escribir tu documento de identidad.";
-        } elseif (!is_numeric($docid)) {
-            return "Debes escribir un documento de indentidad válido";
-        } else {
-            $this->docid = $docid;
-        }
-        return "";
-    }
-
-    private function validar_fn($fecha_nacimiento)
-    {
-        if (!$this->variable_iniciada($fecha_nacimiento)) {
-            return "Debes ingresar tu fecha de nacimiento.";
-        } else {
-            $this->fecha_nacimiento = $fecha_nacimiento;
         }
         return "";
     }
@@ -148,12 +120,12 @@ class ValidarRegistro
         return "";
     }
 
-    private function validar_estado($estado)
+    private function validar_direccion($direccion)
     {
-        if ($estado == null) {
-            return "Debes elegir un rol.";
+        if (!$this->variable_iniciada($direccion)) {
+            return "Debes escribir tu dirección de residencia.";
         } else {
-            $this->estado = $estado;
+            $this->direccion = $direccion;
         }
         return "";
     }
@@ -168,16 +140,6 @@ class ValidarRegistro
         return $this->apellido;
     }
 
-    public function getDocid()
-    {
-        return $this->docid;
-    }
-
-    public function getFechaNacimiento()
-    {
-        return $this->fecha_nacimiento;
-    }
-
     public function getEmail()
     {
         return $this->email;
@@ -188,9 +150,9 @@ class ValidarRegistro
         return $this->clave;
     }
 
-    public function getEstado()
+    public function getDireccion()
     {
-        return $this->estado;
+        return $this->direccion;
     }
 
     public function getErrorNombre()
@@ -213,25 +175,9 @@ class ValidarRegistro
         return $this->error_clave2;
     }
 
-    public function mostrarNombre()
+    public function getErrorDireccion()
     {
-        if ($this->nombre !== "") {
-            echo 'value="' . $this->nombre . '"';
-        }
-    }
-
-    public function mostrarApellido()
-    {
-        if ($this->apellido !== "") {
-            echo 'value="' . $this->apellido . '"';
-        }
-    }
-
-    public function mostrarEmail()
-    {
-        if ($this->email !== "") {
-            echo 'value="' . $this->email . '"';
-        }
+        return $this->error_direccion;
     }
 
     public function mostrarErrorNombre()
@@ -245,13 +191,6 @@ class ValidarRegistro
     {
         if ($this->error_apellido !== "") {
             echo $this->aviso_inicio . $this->error_apellido . $this->aviso_cierre;
-        }
-    }
-
-    public function mostrarErrorDocid()
-    {
-        if ($this->error_docid !== "") {
-            echo $this->aviso_inicio . $this->error_docid . $this->aviso_cierre;
         }
     }
 
@@ -276,23 +215,16 @@ class ValidarRegistro
         }
     }
 
-    public function mostrarErrorFN()
+    public function mostrarErrorDireccion()
     {
-        if ($this->error_fn !== "") {
-            echo $this->aviso_inicio . $this->error_fn . $this->aviso_cierre;
-        }
-    }
-
-    public function mostrarErrorEstado()
-    {
-        if ($this->error_estado !== "") {
-            echo $this->aviso_inicio . $this->error_estado . $this->aviso_cierre;
+        if ($this->error_direccion !== "") {
+            echo $this->aviso_inicio . $this->error_direccion . $this->aviso_cierre;
         }
     }
 
     public function registroValido()
     {
-        if ($this->error_nombre === "" && $this->error_apellido === "" && $this->error_docid === "" && $this->error_email === "" && $this->error_clave1 === "" && $this->error_clave2 === "" && $this->error_fn === "" && $this->error_estado === "") {
+        if ($this->error_nombre === "" && $this->error_apellido === "" && $this->error_email === "" && $this->error_clave1 === "" && $this->error_clave2 === "" && $this->error_direccion === "") {
             return true;
         } else {
             return false;

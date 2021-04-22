@@ -11,7 +11,10 @@ $validador->mostrarErrorTitulo();
 $validador->mostrarErrorAutor();
 ?>
 <div class="panel-block">
-    <input class="input" type="text" name="editor" id="editor" placeholder="Editorial">
+    <input class="input" type="text" name="editorial" id="editorial" placeholder="Editorial">
+</div>
+<div class="panel-block">
+    <input class="input" type="text" name="edicion" id="edicion" placeholder="Edición">
 </div>
 <div class="panel-block">
     <input class="input" type="number" name="fecha_publicacion" id="fecha_publicacion" placeholder="Año de publicación">

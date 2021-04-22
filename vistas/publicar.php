@@ -51,10 +51,12 @@ if (isset($_POST['publicar'])) {
         $target_file3 = "";
     }
 
-    $validador = new ValidarPublicar($_POST['titulo'], $_POST['autor'], $_POST['editor'], $pic1, $pic2, $pic3, $_POST['fecha_publicacion'], $_POST['isbn'], $_POST['issn'], $_POST['precio'], $_POST['calidad']);
+    $validador = new ValidarPublicar($_POST['titulo'], $_POST['autor'], $pic1, $pic2, $pic3, $_POST['fecha_publicacion'], $_POST['precio'], $_POST['calidad']);
 
     if ($validador->publicarValido()) {
-        $libro = new Libro('', $_SESSION['id'], $validador->getTitulo(), $validador->getAutor(), $validador->getEditor(), $validador->getImg1(), $validador->getImg2(), $validador->getImg3(), $validador->getFechaPublicacion(), $validador->getIsbn(), $validador->getIssn(), '', $validador->getPrecio(), $validador->getCalidad(), '');
+        $id = md5(password_hash(rand(0, 100000), PASSWORD_DEFAULT));
+        $libro = new Libro($id, $_SESSION['id'], $validador->getTitulo(), $validador->getAutor(), $_POST['editorial'], $_POST['edicion'], $validador->getImg1(), $validador->getImg2(), $validador->getImg3(), $validador->getFechaPublicacion(), $_POST['isbn'], $_POST['issn'], '', $validador->getPrecio(), $validador->getCalidad(), '');
+
         $libro_insertado = RepositorioLibro:: insertar_libro(Conexion:: getConexion(), $libro);
 
         if ($libro_insertado) {

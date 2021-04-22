@@ -13,53 +13,42 @@ class ValidarPublicar
     private $img2;
     private $img3;
     private $fecha_publicacion;
-    private $isbn;
-    private $issn;
     private $precio;
     private $calidad;
 
     private $error_titulo;
     private $error_autor;
-    private $error_editor;
     private $error_img1;
     private $error_img2;
     private $error_img3;
     private $error_fecha_publicacion;
-    private $error_isbn;
-    private $error_issn;
     private $error_precio;
     private $error_calidad;
 
-    public function __construct($titulo, $autor, $editor, $img1, $img2, $img3, $fecha_publicacion, $isbn, $issn, $precio, $calidad)
+    public function __construct($titulo, $autor, $img1, $img2, $img3, $fecha_publicacion, $precio, $calidad)
     {
         $this->aviso_inicio = "<div class='panel-block'><div class='message is-danger'><div class='message-body' role='alert'>";
         $this->aviso_cierre = "</div></div></div>";
 
         $this->titulo = "";
         $this->autor = "";
-        $this->editor = "";
         $this->img1 = "";
         $this->img2 = "";
         $this->img3 = "";
         $this->fecha_publicacion = "";
-        $this->isbn = "";
-        $this->issn = "";
         $this->precio = "";
         $this->calidad = "";
 
         $this->error_titulo = $this->validar_titulo($titulo);
         $this->error_autor = $this->validar_autor($autor);
-        $this->error_editor = $this->validar_editor($editor);
         $this->error_img1 = $this->validar_img1($img1);
         $this->error_img2 = $this->validar_img2($img2);
         $this->error_img3 = $this->validar_img3($img3);
         $this->error_fecha_publicacion = $this->validar_fp($fecha_publicacion);
-        $this->error_isbn = $this->validar_isbn($isbn);
-        $this->error_issn = $this->validar_issn($issn);
         $this->error_precio = $this->validar_precio($precio);
         $this->error_calidad = $this->validar_calidad($calidad);
 
-        if (!$this->variable_iniciada($titulo) || !$this->variable_iniciada($autor) || !$this->variable_iniciada($precio) || !$this->variable_iniciada($img1)) {
+        if (!$this->variable_iniciada($titulo) || !$this->variable_iniciada($autor) || !$this->variable_iniciada($precio) || !$this->variable_iniciada($img1) || !$this->variable_iniciada($img2) || !$this->variable_iniciada($img3)) {
             $this->libro = null;
             $this->error = "Escribe los datos esenciales del libro. Ingresa el título, autor, una foto y el precio.";
         }
@@ -91,12 +80,6 @@ class ValidarPublicar
         } else {
             $this->autor = $autor;
         }
-        return "";
-    }
-
-    private function validar_editor($editor)
-    {
-        $this->editor = $editor;
         return "";
     }
 
@@ -140,18 +123,6 @@ class ValidarPublicar
         return "";
     }
 
-    private function validar_isbn($isbn)
-    {
-        $this->isbn = $isbn;
-        return "";
-    }
-
-    private function validar_issn($issn)
-    {
-        $this->issn = $issn;
-        return "";
-    }
-
     private function validar_precio($precio)
     {
         if (!$this->variable_iniciada($precio)) {
@@ -186,11 +157,6 @@ class ValidarPublicar
         return $this->autor;
     }
 
-    public function getEditor()
-    {
-        return $this->editor;
-    }
-
     public function getImg1()
     {
         return $this->img1;
@@ -209,16 +175,6 @@ class ValidarPublicar
     public function getFechaPublicacion()
     {
         return $this->fecha_publicacion;
-    }
-
-    public function getIsbn()
-    {
-        return $this->isbn;
-    }
-
-    public function getIssn()
-    {
-        return $this->issn;
     }
 
     public function getPrecio()

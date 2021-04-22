@@ -38,6 +38,9 @@ if ($partes_ruta[0] == 'flybook') {
             case 'buscar';
                 $ruta_elegida = 'vistas/buscar.php';
                 break;
+            case 'compras';
+                $ruta_elegida = 'vistas/compras.php';
+                break;
         }
     } elseif (count($partes_ruta) == 3) {
         if ($partes_ruta[1] == 'registro-correcto') {

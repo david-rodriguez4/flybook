@@ -12,18 +12,23 @@ if (ControlSesion::sesion_iniciada()) {
 }
 
 if (isset($_POST['enviar'])) {
-    Conexion:: abrir_conexion();
-    $validador = new ValidarRegistro($_POST['nombre'], $_POST['apellido'], $_POST['docid'], $_POST['nacimiento'], $_POST['email'], $_POST['clave1'], $_POST['clave2'], $_POST['estado'], Conexion::getConexion());
+    try {
+        Conexion:: abrir_conexion();
+        $validador = new ValidarRegistro($_POST['nombre'], $_POST['apellido'], $_POST['email'], $_POST['clave1'], $_POST['clave2'], $_POST['direccion'], Conexion::getConexion());
 
-    if ($validador->registroValido()) {
-        $usuario = new Usuario('', $validador->getNombre(), $validador->getApellido(), $validador->getDocid(), $validador->getFechaNacimiento(), $validador->getEmail(), password_hash($validador->getClave(), PASSWORD_DEFAULT), '', $validador->getEstado());
-        $usuario_insertado = RepositorioUsuario:: insertarUsuario(Conexion:: getConexion(), $usuario);
+        if ($validador->registroValido()) {
+            $id = md5(password_hash(rand(0, 100000), PASSWORD_DEFAULT));
+            $usuario = new Usuario($id, $validador->getNombre(), $validador->getApellido(), $validador->getEmail(), password_hash($validador->getClave(), PASSWORD_DEFAULT), $validador->getDireccion(), '', '');
+            $usuario_insertado = RepositorioUsuario:: insertarUsuario(Conexion:: getConexion(), $usuario);
 
-        if ($usuario_insertado) {
-            Redireccion:: redirigir(RUTA_REGISTRO_CORRECTO . '/' . $usuario->getNombre());
+            if ($usuario_insertado) {
+                Redireccion:: redirigir(RUTA_REGISTRO_CORRECTO . '/' . $usuario->getNombre());
+            }
         }
+        Conexion:: cerrar_conexion();
+    } catch (Exception $e) {
+        echo $e;
     }
-    Conexion:: cerrar_conexion();
 }
 
 include_once 'plantilla/documento-declaracion.inc.php';
@@ -37,7 +42,8 @@ include_once 'plantilla/navbar.inc.php';
                     <div class="tile is-ancestor">
                         <div class="tile is-parent">
                             <article class="tile is-child notification navbar-brand">
-                                <h1 class="title"><b>Flybook</b><img src="<?php echo RUTA_IMG?>logo.png" width="50" height="37"></h1>
+                                <h1 class="title"><b>Flybook</b><img src="<?php echo RUTA_IMG ?>logo.png" width="50"
+                                                                     height="37"></h1>
                                 <p class="subtitle">Compra y venta de libros online</p>
                             </article>
                         </div>

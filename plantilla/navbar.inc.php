@@ -30,7 +30,7 @@ include_once 'plantilla/documento-declaracion.inc.php';
                         <div class="navbar-dropdown">
                             <a class="navbar-item" href="<?php echo RUTA_PUBLICAR ?>">Vender un libro</a>
                             <hr class="navbar-divider">
-                            <a class="navbar-item" href="#">Ventas y compras</a>
+                            <a class="navbar-item" href="<?php echo RUTA_COMPRAS ?>">Mis compras</a>
                             <hr class="navbar-divider">
                             <a class="navbar-item" href="<?php echo RUTA_PUBLICACIONES ?>">Mis publicaciones</a>
                             <hr class="navbar-divider">
