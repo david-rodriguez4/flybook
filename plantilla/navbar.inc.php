@@ -40,7 +40,7 @@ include_once 'plantilla/documento-declaracion.inc.php';
                 </div>
 
                 <?php
-            } else {
+            } elseif (!ControlSesion::sesion_iniciada()) {
                 ?>
                 <div class="navbar-end">
                     <div class="navbar-item">

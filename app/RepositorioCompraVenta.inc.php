@@ -47,8 +47,6 @@ class RepositorioCompraVenta
                     foreach ($resultado as $fila) {
                         $compras[] = new CompraVenta($fila['id'], $fila['id_vendedor'], $fila['id_comprador'], $fila['id_libro'], $fila['estado'], $fila['fecha_compra']);
                     }
-                } else {
-                    echo "No hay resultados";
                 }
             } catch (PDOException $ex) {
                 print "ERROR" . $ex->getMessage();

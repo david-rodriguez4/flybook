@@ -12,23 +12,40 @@ include_once 'app/ControlSesion.inc.php';
 include_once 'plantilla/documento-declaracion.inc.php';
 include_once 'plantilla/navbar.inc.php';
 
-if (isset($_POST['confirmar']) && ControlSesion::sesion_iniciada()) {
-    Conexion::abrir_conexion();
-    $id = md5(password_hash(rand(0, 100000), PASSWORD_DEFAULT));
-    $id_comprador = $_SESSION['id'];
-    $compraventa = new CompraVenta($id, $vendedor->getId(), $id_comprador, $libro->getId(), '', '');
+if (isset($_POST['confirmar'])) {
+    if (ControlSesion::sesion_iniciada()) {
+        Conexion::abrir_conexion();
+        $id = md5(password_hash(rand(0, 100000), PASSWORD_DEFAULT));
+        $id_comprador = $_SESSION['id'];
 
-    $compraventa_insertada = RepositorioCompraVenta:: insertar_compraventa(Conexion:: getConexion(), $compraventa);
+        if ($vendedor->getId() != $id_comprador) {
+            $compraventa = new CompraVenta($id, $vendedor->getId(), $id_comprador, $libro->getId(), '', '');
 
-    if ($compraventa_insertada) {
-        RepositorioLibro::desactivar_libro(Conexion:: getConexion(), $libro->getId());
+            $compraventa_insertada = RepositorioCompraVenta:: insertar_compraventa(Conexion:: getConexion(), $compraventa);
+        } else {
+            ?>
+            <script type="text/javascript">
+                alert("Fallo en la compra.");
+            </script>
+            <?php
+        }
+
+        if ($compraventa_insertada) {
+            RepositorioLibro::desactivar_libro(Conexion:: getConexion(), $libro->getId());
+            ?>
+            <script type="text/javascript">
+                alert("Se ha registrado tu compra.");
+            </script>
+            <?php
+        }
+        Conexion::cerrar_conexion();
+    } else {
         ?>
         <script type="text/javascript">
-            alert("Se ha registrado tu compra.");
+            alert("No has iniciado sesión.");
         </script>
         <?php
     }
-    Conexion::cerrar_conexion();
 }
 ?>
     <div class="container is-max-desktop">
@@ -130,16 +147,32 @@ if (isset($_POST['confirmar']) && ControlSesion::sesion_iniciada()) {
                 </section>
                 <footer class="modal-card-foot">
                     <form role="form" method="post" action="<?php echo RUTA_LIBRO . '/' . $libro->getId() ?>">
-                        <button class="button is-success" name="confirmar">Confirmar compra</button>
+                        <button class="button is-success" name="confirmar">Confirmar compra
+                        </button>
                         <button class="button is-light" onclick="hide_modal()">Cancelar</button>
                     </form>
                 </footer>
             </div>
         </div>
+        <div class="modal" id="modal2">
+            <div class="modal-background"></div>
+            <div class="modal-content">
+                <p class="image is-4by3">
+                    <img src="https://bulma.io/images/placeholders/1280x960.png" alt="">
+                </p>
+            </div>
+            <button class="modal-close is-large" aria-label="close"></button>
+        </div>
     </div>
     <script type="text/javascript">
         function show_modal() {
             document.getElementById("modal").classList.add("is-active");
+        }
+
+        function show_error() {
+            if (<?php echo !isset($_POST['confirmar']) ?>){
+                document.getElementById("modal2").classList.add("is-active");
+            }
         }
 
         function hide_modal() {

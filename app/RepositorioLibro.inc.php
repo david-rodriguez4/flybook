@@ -63,7 +63,7 @@ class RepositorioLibro
 
         if (isset($conexion)) {
             try {
-                $sql = "INSERT INTO libros(id, id_vendedor, titulo, autor, editorial, edicion, img1, img2, img3, year_publicacion, isbn, issn, fecha_subida, precio, calidad, activo) VALUES(:id, :id_vendedor, :titulo, :autor, :editorial, :edicion, :img1, :img2, :img3, :year_publicacion, :isbn, :isbn, NOW(), :precio, :calidad, 1)";
+                $sql = "INSERT INTO libros(id, id_vendedor, titulo, autor, editorial, edicion, img1, img2, img3, year_publicacion, isbn, issn, fecha_subida, precio, calidad, activo) VALUES(:id, :id_vendedor, :titulo, :autor, :editorial, :edicion, :img1, :img2, :img3, :year_publicacion, :isbn, :issn, NOW(), :precio, :calidad, 1)";
                 $setencia = $conexion->prepare($sql);
 
                 $idtemp = $libro->getId();
@@ -86,7 +86,7 @@ class RepositorioLibro
                 $setencia->bindParam(':titulo', $titulotemp, PDO::PARAM_STR);
                 $setencia->bindParam(':autor', $autortemp, PDO::PARAM_STR);
                 $setencia->bindParam(':editorial', $editorialtemp, PDO::PARAM_STR);
-                $setencia->bindParam(':edicion', $editorialtemp, PDO::PARAM_STR);
+                $setencia->bindParam(':edicion', $ediciontemp, PDO::PARAM_STR);
                 $setencia->bindParam(':img1', $img1temp, PDO::PARAM_STR);
                 $setencia->bindParam(':img2', $img2temp, PDO::PARAM_STR);
                 $setencia->bindParam(':img3', $img3temp, PDO::PARAM_STR);
