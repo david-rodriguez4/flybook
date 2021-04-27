@@ -41,6 +41,12 @@ if ($partes_ruta[0] == 'flybook') {
             case 'compras';
                 $ruta_elegida = 'vistas/compras.php';
                 break;
+            case 'editar';
+                $ruta_elegida = 'vistas/editar.php';
+                break;
+            case 'carrito';
+                $ruta_elegida = 'vistas/carrito.php';
+                break;
         }
     } elseif (count($partes_ruta) == 3) {
         if ($partes_ruta[1] == 'registro-correcto') {

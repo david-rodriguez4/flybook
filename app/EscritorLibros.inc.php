@@ -3,6 +3,7 @@ include_once 'app/RepositorioLibro.inc.php';
 include_once 'app/Libro.inc.php';
 include_once 'app/RepositorioCompraVenta.inc.php';
 include_once 'app/CompraVenta.inc.php';
+include_once 'app/Redireccion.inc.php';
 
 class EscritorLibros
 {
@@ -78,6 +79,7 @@ class EscritorLibros
 
     public static function escribir_mi_publicacion($libro)
     {
+        Conexion::abrir_conexion();
         if (!isset($libro)) {
             return;
         }
@@ -87,20 +89,59 @@ class EscritorLibros
         } else {
             $vendido = "Si";
         }
+
+        if (isset($_POST[$libro->getId()])) {
+            RepositorioLibro::eliminar_libro(Conexion::getConexion(), $libro->getId());
+            unlink(getcwd() . "/uploads/" . $libro->getImg1());
+            unlink(getcwd() . "/uploads/" . $libro->getImg2());
+            unlink(getcwd() . "/uploads/" . $libro->getImg3());
+            Redireccion::redirigir(RUTA_PUBLICACIONES);
+        }
+
         ?>
-        <tr>
+        <tr class="trbody">
             <td><?php echo $libro->getTitulo() ?></td>
             <td>$<?php echo number_format(intval($libro->getPrecio()), 0, ",", ".") ?></td>
-            <td><?php echo $libro->getFechaSubida() ?></td>
             <td><?php echo $vendido ?></td>
+            <td class="gestionar">
+                <button name="editar">Editar</button>
+                <button onclick="show_modal()">Eliminar</button>
+            </td>
         </tr>
+        <div class="modal" id="borrar">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title"><strong>Eliminar</strong></p>
+                </header>
+                <section class="modal-card-body">
+                    <p>¿Deseas eliminar el libro <strong><?php echo $libro->getTitulo() ?></strong>?</p>
+                </section>
+                <footer class="modal-card-foot">
+                    <form role="form" method="post" action="<?php echo RUTA_PUBLICACIONES ?>">
+                        <button class="button is-success" name="<?php echo $libro->getId() ?>">Eliminar</button>
+                    </form>
+                    <button class="button is-light" onclick="hide_modal()">Cancelar</button>
+                </footer>
+            </div>
+        </div>
+        <script type="text/javascript">
+            function show_modal() {
+                document.getElementById("borrar").classList.add("is-active");
+            }
+
+            function hide_modal() {
+                document.getElementById("borrar").classList.remove("is-active");
+            }
+        </script>
         <?php
+        Conexion::cerrar_conexion();
     }
 
     public static function escribir_mis_compras()
     {
         $compras = RepositorioCompraVenta::obtener_compras_id_comprador(Conexion::getConexion(), $_SESSION['id']);
-        if (count($compras)){
+        if (count($compras)) {
             foreach ($compras as $compra) {
                 $libro = RepositorioLibro::obtener_libro_compras_por_id(Conexion::getConexion(), $compra->getIdLibro());
                 self::escribir_mi_compra($libro, $compra);
@@ -114,11 +155,32 @@ class EscritorLibros
             return;
         }
         ?>
-        <tr>
+        <tr class="trbody">
             <td><?php echo $libro->getTitulo() ?></td>
             <td>$<?php echo number_format(intval($libro->getPrecio()), 0, ",", ".") ?></td>
             <td><?php echo $compra->getFechaCompra() ?></td>
         </tr>
+        <?php
+    }
+
+    public static function libros_por_comprar()
+    {
+        $compras = RepositorioCompraVenta::obtener_compras_id_comprador_pagar(Conexion::getConexion(), $_SESSION['id']);
+        if (count($compras)) {
+            foreach ($compras as $compra) {
+                $libro = RepositorioLibro::obtener_libro_compras_por_id(Conexion::getConexion(), $compra->getIdLibro());
+                self::escribir_por_comprar($libro, $compra);
+            }
+        }
+    }
+
+    public static function escribir_por_comprar($libro, $compra)
+    {
+        if (!isset($libro)) {
+            return;
+        }
+        ?>
+        <option value="<?php echo $compra->getId() ?>"><?php echo $libro->getTitulo() ?> - <?php echo $libro->getAutor() ?></option>
         <?php
     }
 

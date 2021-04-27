@@ -38,7 +38,7 @@ class RepositorioCompraVenta
         $compras = [];
         if (isset($conexion)) {
             try {
-                $sql = "SELECT * FROM compraventa WHERE id_comprador = :id_comprador";
+                $sql = "SELECT * FROM compraventa WHERE id_comprador = :id_comprador AND estado = 1";
                 $setencia = $conexion->prepare($sql);
                 $setencia->bindParam(':id_comprador', $id_comprador, PDO::PARAM_STR);
                 $setencia->execute();
@@ -53,5 +53,42 @@ class RepositorioCompraVenta
             }
         }
         return $compras;
+    }
+
+    public static function obtener_compras_id_comprador_pagar($conexion, $id_comprador)
+    {
+        $compras = [];
+        if (isset($conexion)) {
+            try {
+                $sql = "SELECT * FROM compraventa WHERE id_comprador = :id_comprador AND estado = 0";
+                $setencia = $conexion->prepare($sql);
+                $setencia->bindParam(':id_comprador', $id_comprador, PDO::PARAM_STR);
+                $setencia->execute();
+                $resultado = $setencia->fetchAll();
+                if (count($resultado)) {
+                    foreach ($resultado as $fila) {
+                        $compras[] = new CompraVenta($fila['id'], $fila['id_vendedor'], $fila['id_comprador'], $fila['id_libro'], $fila['estado'], $fila['fecha_compra']);
+                    }
+                }
+            } catch (PDOException $ex) {
+                print "ERROR" . $ex->getMessage();
+            }
+        }
+        return $compras;
+    }
+
+    public static function actualizar_estado_pago($conexion, $id)
+    {
+        if (isset($conexion)) {
+            try {
+                $sql = "UPDATE compraventa SET estado = 1, fecha_compra = NOW() WHERE id = :id";
+                $setencia = $conexion->prepare($sql);
+                $setencia->bindParam(':id', $id, PDO::PARAM_STR);
+                $setencia->execute();
+            } catch (PDOException $ex) {
+                print "ERROR" . $ex->getMessage();
+            }
+        }
+        return true;
     }
 }

@@ -13,19 +13,20 @@ include_once 'plantilla/navbar.inc.php';
 ?>
 <br>
 <div class="container is-max-desktop">
-    <table class="table">
+    <table class="table is-narrow is-bordered">
         <thead>
-        <tr>
+        <tr class="trhead">
             <th>Título</th>
             <th>Precio</th>
-            <th>Fecha</th>
             <th>Vendido</th>
+            <th>Gestionar</th>
         </tr>
         </thead>
         <tbody>
         <?php
         EscritorLibros::escribir_mis_publicaciones();
         ?>
+
         </tbody>
     </table>
     <br>

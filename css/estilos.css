@@ -253,3 +253,28 @@ figure.zoom {
 .modal-card-foot {
     background: #ffffff !important;
 }
+
+.trbody {
+    transition: all 0.333s ease-out 0s;
+}
+
+.trbody .gestionar {
+    display: compact;
+}
+
+.trbody:hover {
+    background: rgba(0, 0, 0, .1) !important;
+}
+
+.trbody a {
+    color: #0d6efd !important;
+}
+
+.trhead {
+    background: #383838 !important;
+    color: #EDEDED !important;
+}
+
+.trhead th {
+    color: #EDEDED !important;
+}

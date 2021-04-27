@@ -17,6 +17,8 @@ define("RUTA_LIBRO", SERVIDOR . "/libro");
 define("RUTA_PUBLICACIONES", SERVIDOR . "/publicaciones");
 define("RUTA_BUSCAR", SERVIDOR . "/buscar");
 define("RUTA_COMPRAS", SERVIDOR . "/compras");
+define("RUTA_EDITAR", SERVIDOR . "/editar");
+define("RUTA_CARRITO", SERVIDOR . "/carrito");
 
 //Recursos
 define("RUTA_CSS", SERVIDOR . "/css/");

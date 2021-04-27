@@ -13,9 +13,9 @@ include_once 'plantilla/navbar.inc.php';
 ?>
 <br>
 <div class="container is-max-desktop">
-    <table class="table">
+    <table class="table is-narrow is-bordered">
         <thead>
-        <tr>
+        <tr class="trhead">
             <th>Título</th>
             <th>Precio</th>
             <th>Fecha de compra</th>

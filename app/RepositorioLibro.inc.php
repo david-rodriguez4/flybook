@@ -192,4 +192,18 @@ class RepositorioLibro
         }
         return $libros;
     }
+
+    public static function eliminar_libro($conexion, $id)
+    {
+        if (isset($conexion)) {
+            try {
+                $sql = "DELETE FROM libros WHERE id = :id";
+                $setencia = $conexion->prepare($sql);
+                $setencia->bindParam(':id', $id, PDO::PARAM_STR);
+                $setencia->execute();
+            } catch (PDOException $ex) {
+                print "ERROR" . $ex->getMessage();
+            }
+        }
+    }
 }

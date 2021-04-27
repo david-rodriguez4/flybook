@@ -8,6 +8,7 @@ include_once 'app/RepositorioLibro.inc.php';
 include_once 'app/RepositorioUsuario.inc.php';
 include_once 'app/RepositorioCompraVenta.inc.php';
 include_once 'app/ControlSesion.inc.php';
+include_once 'app/Redireccion.inc.php';
 
 include_once 'plantilla/documento-declaracion.inc.php';
 include_once 'plantilla/navbar.inc.php';
@@ -20,9 +21,9 @@ if (isset($_POST['confirmar'])) {
 
         if ($vendedor->getId() != $id_comprador) {
             $compraventa = new CompraVenta($id, $vendedor->getId(), $id_comprador, $libro->getId(), '', '');
-
             $compraventa_insertada = RepositorioCompraVenta:: insertar_compraventa(Conexion:: getConexion(), $compraventa);
         } else {
+            $compraventa_insertada = false;
             ?>
             <script type="text/javascript">
                 alert("Fallo en la compra.");
@@ -32,11 +33,7 @@ if (isset($_POST['confirmar'])) {
 
         if ($compraventa_insertada) {
             RepositorioLibro::desactivar_libro(Conexion:: getConexion(), $libro->getId());
-            ?>
-            <script type="text/javascript">
-                alert("Se ha registrado tu compra.");
-            </script>
-            <?php
+            Redireccion::redirigir(RUTA_CARRITO);
         }
         Conexion::cerrar_conexion();
     } else {
@@ -128,7 +125,7 @@ if (isset($_POST['confirmar'])) {
                                 </p>
                             </div>
                             <div class="panel-block">
-                                <button class="button is-light is-fullwidth" onclick="show_modal()">Comprar</button>
+                                <button class="button is-light is-fullwidth" onclick="show_modal()">Agregar al carrito</button>
                             </div>
                         </div>
                     </div>
@@ -142,26 +139,17 @@ if (isset($_POST['confirmar'])) {
                     <p class="modal-card-title"><strong>Confirmación</strong></p>
                 </header>
                 <section class="modal-card-body">
-                    <p>¿Deseas confirmar la compra del libro <strong><?php echo $libro->getTitulo() ?></strong>?</p>
-                    <p>El método de pago es contra entrega.</p>
+                    <p>¿Deseas agregar al carrito el libro <b><?php echo $libro->getTitulo() ?></b>?</p>
+                    <p>El pago se realizará por medio de tarjeta de crédito.</p>
+                    <p>A continuación se agregará el libro a tu carrito de compras para que realices el pago.</p>
                 </section>
                 <footer class="modal-card-foot">
                     <form role="form" method="post" action="<?php echo RUTA_LIBRO . '/' . $libro->getId() ?>">
-                        <button class="button is-success" name="confirmar">Confirmar compra
-                        </button>
+                        <button class="button is-success" name="confirmar">Confirmar</button>
                         <button class="button is-light" onclick="hide_modal()">Cancelar</button>
                     </form>
                 </footer>
             </div>
-        </div>
-        <div class="modal" id="modal2">
-            <div class="modal-background"></div>
-            <div class="modal-content">
-                <p class="image is-4by3">
-                    <img src="https://bulma.io/images/placeholders/1280x960.png" alt="">
-                </p>
-            </div>
-            <button class="modal-close is-large" aria-label="close"></button>
         </div>
     </div>
     <script type="text/javascript">
@@ -170,7 +158,7 @@ if (isset($_POST['confirmar'])) {
         }
 
         function show_error() {
-            if (<?php echo !isset($_POST['confirmar']) ?>){
+            if (<?php echo !isset($_POST['confirmar']) ?>) {
                 document.getElementById("modal2").classList.add("is-active");
             }
         }

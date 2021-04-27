@@ -35,7 +35,7 @@ $validador->mostrarErrorFP();
 $validador->mostrarErrorPrecio();
 ?>
 <div class="panel-block">
-    <input class="input" type="number" name="calidad" id="calidad" placeholder="Estado físico del libro">
+    <input class="input" type="number" name="calidad" id="calidad" placeholder="Estado físico del libro (0 - 100)">
 </div>
 <?php
 $validador->mostrarErrorCalidad();

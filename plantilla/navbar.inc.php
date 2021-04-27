@@ -34,6 +34,8 @@ include_once 'plantilla/documento-declaracion.inc.php';
                             <hr class="navbar-divider">
                             <a class="navbar-item" href="<?php echo RUTA_PUBLICACIONES ?>">Mis publicaciones</a>
                             <hr class="navbar-divider">
+                            <a class="navbar-item" href="<?php echo RUTA_CARRITO ?>">Mi carrito</a>
+                            <hr class="navbar-divider">
                             <a class="navbar-item" href="<?php echo RUTA_LOGOUT ?>">Cerrar sesión</a>
                         </div>
                     </div>
