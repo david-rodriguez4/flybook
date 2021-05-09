@@ -21,7 +21,7 @@ class RepositorioUsuario
 
                 if (count($resultado)) {
                     foreach ($resultado as $fila) {
-                        $usuarios[] = new Usuario($fila['id'], $fila['nombre'], $fila['apellido'], $fila['email'], $fila['password'], $fila['direccion'], $fila['fecha_registro'], $fila['estado']);
+                        $usuarios[] = new Usuario($fila['id'], $fila['nombre'], $fila['documento'], $fila['telefono'], $fila['email'], $fila['password'], $fila['direccion'], $fila['fecha_registro'], $fila['estado']);
                     }
                 } else {
                     print 'No hay usuarios';
@@ -57,19 +57,21 @@ class RepositorioUsuario
 
         if (isset($conexion)) {
             try {
-                $sql = "INSERT INTO usuarios(id, nombre, apellido, email, password, direccion, fecha_registro, estado) VALUES(:id, :nombre, :apellido, :email, :password, :direccion, NOW(), 0)";
+                $sql = "INSERT INTO usuarios(id, nombre, documento, telefono, email, password, direccion, fecha_registro, estado) VALUES(:id, :nombre, :documento, :telefono, :email, :password, :direccion, NOW(), 0)";
                 $setencia = $conexion->prepare($sql);
 
                 $idtemp = $usuario->getId();
                 $nombretemp = $usuario->getNombre();
-                $apellidotemp = $usuario->getApellido();
+                $documentotemp = $usuario->getDocumento();
+                $telefonotemp = $usuario->getTelefono();
                 $emailtemp = $usuario->getEmail();
                 $passwordtemp = $usuario->getPassword();
                 $direcciontemp = $usuario->getDireccion();
 
                 $setencia->bindParam(':id', $idtemp, PDO::PARAM_STR);
                 $setencia->bindParam(':nombre', $nombretemp, PDO::PARAM_STR);
-                $setencia->bindParam(':apellido', $apellidotemp, PDO::PARAM_STR);
+                $setencia->bindParam(':documento', $documentotemp, PDO::PARAM_STR);
+                $setencia->bindParam(':telefono', $telefonotemp, PDO::PARAM_STR);
                 $setencia->bindParam(':email', $emailtemp, PDO::PARAM_STR);
                 $setencia->bindParam(':password', $passwordtemp, PDO::PARAM_STR);
                 $setencia->bindParam(':direccion', $direcciontemp, PDO::PARAM_STR);
@@ -116,9 +118,9 @@ class RepositorioUsuario
                 $setencia->execute();
                 $resultado = $setencia->fetch();
                 if (!empty($resultado)) {
-                    $usuario = new Usuario($resultado['id'], $resultado['nombre'], $resultado['apellido'], $resultado['email'], $resultado['password'], $resultado['direccion'], $resultado['fecha_registro'], $resultado['estado']);
+                    $usuario = new Usuario($resultado['id'], $resultado['nombre'], $resultado['documento'], $resultado['telefono'], $resultado['email'], $resultado['password'], $resultado['direccion'], $resultado['fecha_registro'], $resultado['estado']);
                 } else {
-                    $usuario = new Usuario(null, null, null, null, null, null, null, null);
+                    $usuario = new Usuario(null, null, null, null, null, null, null, null, null);
                 }
             } catch (PDOException $ex) {
                 print "ERROR" . $ex->getMessage();
@@ -140,9 +142,9 @@ class RepositorioUsuario
                 $setencia->execute();
                 $resultado = $setencia->fetch();
                 if (!empty($resultado)) {
-                    $usuario = new Usuario($resultado['id'], $resultado['nombre'], $resultado['apellido'], $resultado['email'], $resultado['password'], $resultado['direccion'], $resultado['fecha_registro'], $resultado['estado']);
+                    $usuario = new Usuario($resultado['id'], $resultado['nombre'], $resultado['documento'], $resultado['telefono'], $resultado['email'], $resultado['password'], $resultado['direccion'], $resultado['fecha_registro'], $resultado['estado']);
                 } else {
-                    $usuario = new Usuario(null, null, null, null, null, null, null, null);
+                    $usuario = new Usuario(null, null, null, null, null, null, null, null, null);
                 }
             } catch (PDOException $ex) {
                 print "ERROR" . $ex->getMessage();

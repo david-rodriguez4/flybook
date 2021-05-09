@@ -104,6 +104,34 @@ class RepositorioLibro
         return $libro_insertado;
     }
 
+    public static function editar_libro($conexion, $id, $titulo, $autor, $editorial, $edicion, $year_publicacion, $isbn, $issn, $precio, $calidad)
+    {
+        $libro_insertado = false;
+
+        if (isset($conexion)) {
+            try {
+                $sql = "UPDATE libros SET titulo = :titulo, autor = :autor, editorial = :editorial, edicion = :edicion, year_publicacion = :year_publicacion, isbn = :isbn, issn = :issn, fecha_subida = NOW(), precio = :precio, calidad = :calidad, activo = 1 WHERE id = :id";
+                $setencia = $conexion->prepare($sql);
+
+                $setencia->bindParam(':id', $id, PDO::PARAM_STR);
+                $setencia->bindParam(':titulo', $titulo, PDO::PARAM_STR);
+                $setencia->bindParam(':autor', $autor, PDO::PARAM_STR);
+                $setencia->bindParam(':editorial', $editorial, PDO::PARAM_STR);
+                $setencia->bindParam(':edicion', $edicion, PDO::PARAM_STR);
+                $setencia->bindParam(':year_publicacion', $year_publicacion, PDO::PARAM_STR);
+                $setencia->bindParam(':isbn', $isbn, PDO::PARAM_STR);
+                $setencia->bindParam(':issn', $issn, PDO::PARAM_STR);
+                $setencia->bindParam(':precio', $precio, PDO::PARAM_STR);
+                $setencia->bindParam(':calidad', $calidad, PDO::PARAM_STR);
+
+                $libro_insertado = $setencia->execute();
+            } catch (PDOException $ex) {
+                print "ERROR" . $ex->getMessage();
+            }
+        }
+        return $libro_insertado;
+    }
+
     public static function obtener_todas_por_fecha_descendiente($conexion)
     {
         $libros = [];
@@ -127,13 +155,35 @@ class RepositorioLibro
         return $libros;
     }
 
-    public static function obtener_libro_por_id($conexion, $id)
+    public static function obtener_libro_por_id_estado_cero($conexion, $id)
     {
         $libro = null;
 
         if (isset($conexion)) {
             try {
                 $sql = "SELECT * FROM libros WHERE id LIKE :id AND activo = 1";
+                $setencia = $conexion->prepare($sql);
+                $setencia->bindParam(':id', $id, PDO::PARAM_STR);
+                $setencia->execute();
+                $resultado = $setencia->fetch();
+
+                if (!empty($resultado)) {
+                    $libro = new Libro($resultado['id'], $resultado['id_vendedor'], $resultado['titulo'], $resultado['autor'], $resultado['editorial'], $resultado['edicion'], $resultado['img1'], $resultado['img2'], $resultado['img3'], $resultado['year_publicacion'], $resultado['isbn'], $resultado['issn'], $resultado['fecha_subida'], $resultado['precio'], $resultado['calidad'], $resultado['activo']);
+                }
+            } catch (PDOException $ex) {
+                print "ERROR" . $ex->getMessage();
+            }
+        }
+        return $libro;
+    }
+
+    public static function obtener_libro_por_id($conexion, $id)
+    {
+        $libro = null;
+
+        if (isset($conexion)) {
+            try {
+                $sql = "SELECT * FROM libros WHERE id LIKE :id";
                 $setencia = $conexion->prepare($sql);
                 $setencia->bindParam(':id', $id, PDO::PARAM_STR);
                 $setencia->execute();
@@ -174,9 +224,10 @@ class RepositorioLibro
     public static function obtener_libro_titulo_autor($conexion, $busqueda)
     {
         $libros = [];
+        $busqueda = '%' . $busqueda . '%';
         if (isset($conexion)) {
             try {
-                $sql = "SELECT * FROM libros WHERE titulo LIKE :busqueda OR autor LIKE :busqueda AND activo = 1 ORDER BY fecha_subida DESC";
+                $sql = "SELECT * FROM libros WHERE activo = 1 AND titulo LIKE :busqueda OR autor LIKE :busqueda ORDER BY fecha_subida DESC";
                 $setencia = $conexion->prepare($sql);
                 $setencia->bindParam(':busqueda', $busqueda, PDO::PARAM_STR);
                 $setencia->execute();

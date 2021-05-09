@@ -20,7 +20,7 @@ if (isset($_POST['confirmar'])) {
         $id_comprador = $_SESSION['id'];
 
         if ($vendedor->getId() != $id_comprador) {
-            $compraventa = new CompraVenta($id, $vendedor->getId(), $id_comprador, $libro->getId(), '', '');
+            $compraventa = new CompraVenta($id, $vendedor->getId(), $id_comprador, $libro->getId(), '', '', '', '', 0, '', '');
             $compraventa_insertada = RepositorioCompraVenta:: insertar_compraventa(Conexion:: getConexion(), $compraventa);
         } else {
             $compraventa_insertada = false;
@@ -116,7 +116,7 @@ if (isset($_POST['confirmar'])) {
                             </div>
                             <div class="panel-block">
                                 <p>
-                                    <strong>Vendedor: </strong><?php echo $vendedor->getNombre() ?> <?php echo $vendedor->getApellido() ?>
+                                    <strong>Vendedor: </strong><?php echo $vendedor->getNombre() ?>
                                 </p>
                             </div>
                             <div class="panel-block">
@@ -125,7 +125,7 @@ if (isset($_POST['confirmar'])) {
                                 </p>
                             </div>
                             <div class="panel-block">
-                                <button class="button is-light is-fullwidth" onclick="show_modal()">Agregar al carrito</button>
+                                <button class="button is-light is-fullwidth" onclick="show_modal()">Comprar</button>
                             </div>
                         </div>
                     </div>
@@ -139,9 +139,11 @@ if (isset($_POST['confirmar'])) {
                     <p class="modal-card-title"><strong>Confirmación</strong></p>
                 </header>
                 <section class="modal-card-body">
-                    <p>¿Deseas agregar al carrito el libro <b><?php echo $libro->getTitulo() ?></b>?</p>
-                    <p>El pago se realizará por medio de tarjeta de crédito.</p>
-                    <p>A continuación se agregará el libro a tu carrito de compras para que realices el pago.</p>
+                    <p>¿Deseas comprar el libro <b><?php echo $libro->getTitulo() ?></b>?</p>
+                    <p>Al confirmar la compra tu libro se pondrá en espera hasta que realices el pago y subas el
+                        comprobante.</p>
+                    <p>Debes realizar el pago del precio del libro a la cuenta de Baloto 1000331269 y número de teléfono
+                        3508059644.</p>
                 </section>
                 <footer class="modal-card-foot">
                     <form role="form" method="post" action="<?php echo RUTA_LIBRO . '/' . $libro->getId() ?>">

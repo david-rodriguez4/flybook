@@ -6,6 +6,10 @@ body {
     .container .tile p {
         font-size: 0.7rem !important;
     }
+
+    .table {
+        font-size: 20px !important;
+    }
 }
 
 .footer {
@@ -277,4 +281,17 @@ figure.zoom {
 
 .trhead th {
     color: #EDEDED !important;
+}
+
+.notfound {
+    font-size: 10rem !important;
+    text-align: center !important;
+}
+
+.cuatro {
+    font-size: 5rem !important;
+}
+
+#tabla_precios {
+    display: none;
 }

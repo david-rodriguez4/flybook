@@ -1,14 +1,20 @@
 <div class="panel-block">
-    <input type="text" class="input" name="nombre" placeholder="Nombres">
+    <input type="text" class="input" name="nombre" placeholder="Nombre completo">
 </div>
 <?php
 $validador->mostrarErrorNombre();
 ?>
 <div class="panel-block">
-    <input type="text" class="input" name="apellido" placeholder="Apellidos">
+    <input type="number" class="input" name="documento" placeholder="Documento de identidad">
 </div>
 <?php
-$validador->mostrarErrorApellido();
+$validador->mostrarErrorDocumento();
+?>
+<div class="panel-block">
+    <input type="number" class="input" name="telefono" placeholder="Teléfono celular">
+</div>
+<?php
+$validador->mostrarErrorTelefono();
 ?>
 <div class="panel-block">
     <input type="email" class="input" name="email" placeholder="Correo electrónico">

@@ -6,7 +6,8 @@ CREATE TABLE usuarios
 (
     id             VARCHAR(255) NOT NULL UNIQUE,
     nombre         VARCHAR(255) NOT NULL,
-    apellido       VARCHAR(255) NOT NULL,
+    documento      VARCHAR(255) NOT NULL,
+    telefono       VARCHAR(255) NOT NULL,
     email          VARCHAR(255) NOT NULL UNIQUE,
     password       VARCHAR(255) NOT NULL,
     direccion      VARCHAR(255) NOT NULL,
@@ -44,8 +45,13 @@ CREATE TABLE compraventa
     id_vendedor  VARCHAR(255) NOT NULL,
     id_comprador VARCHAR(255) NOT NULL,
     id_libro     VARCHAR(255) NOT NULL,
+    id_pago      VARCHAR(255),
+    img_pago     VARCHAR(255),
+    id_envio     VARCHAR(255),
+    img_envio    VARCHAR(255),
     estado       TINYINT      NOT NULL,
-    fecha_compra DATETIME     NOT NULL,
+    fecha_pago   DATETIME,
+    fecha_envio  DATETIME,
     PRIMARY KEY (id),
     FOREIGN KEY (id_vendedor)
         REFERENCES usuarios (id)

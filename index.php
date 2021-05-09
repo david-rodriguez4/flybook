@@ -56,10 +56,19 @@ if ($partes_ruta[0] == 'flybook') {
         if ($partes_ruta[1] == 'libro') {
             $url = $partes_ruta[2];
             Conexion::abrir_conexion();
-            $libro = RepositorioLibro::obtener_libro_por_id(Conexion::getConexion(), $url);
+            $libro = RepositorioLibro::obtener_libro_por_id_estado_cero(Conexion::getConexion(), $url);
             if ($libro != null) {
                 $vendedor = RepositorioUsuario::getUsuarioId(Conexion::getConexion(), $libro->getIdVendedor());
                 $ruta_elegida = 'vistas/libro.php';
+            }
+        }
+        if ($partes_ruta[1] == 'editar') {
+            $url = $partes_ruta[2];
+            Conexion::abrir_conexion();
+            $libro = RepositorioLibro::obtener_libro_por_id_estado_cero(Conexion::getConexion(), $url);
+            if ($libro != null) {
+                $vendedor = RepositorioUsuario::getUsuarioId(Conexion::getConexion(), $libro->getIdVendedor());
+                $ruta_elegida = 'vistas/editar.php';
             }
         }
     }

@@ -73,12 +73,6 @@ include_once 'plantilla/navbar.inc.php';
                         <div class="panel-block">
                             <button type="submit" class="button is-light is-fullwidth" name="login">Enviar</button>
                         </div>
-                        <br>
-                        <div class="text-center">
-                            <a href="#">¿Olvidaste tu contraseña?</a><br>
-                            <a href="<?php echo RUTA_REGISTRO ?>">¿No te has registrado?</a>
-                        </div>
-                        <br>
                     </form>
                 </div>
             </div>

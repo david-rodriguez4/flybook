@@ -14,11 +14,11 @@ if (ControlSesion::sesion_iniciada()) {
 if (isset($_POST['enviar'])) {
     try {
         Conexion:: abrir_conexion();
-        $validador = new ValidarRegistro($_POST['nombre'], $_POST['apellido'], $_POST['email'], $_POST['clave1'], $_POST['clave2'], $_POST['direccion'], Conexion::getConexion());
+        $validador = new ValidarRegistro($_POST['nombre'], $_POST['documento'], $_POST['telefono'], $_POST['email'], $_POST['clave1'], $_POST['clave2'], $_POST['direccion'], Conexion::getConexion());
 
         if ($validador->registroValido()) {
             $id = md5(password_hash(rand(0, 100000), PASSWORD_DEFAULT));
-            $usuario = new Usuario($id, $validador->getNombre(), $validador->getApellido(), $validador->getEmail(), password_hash($validador->getClave(), PASSWORD_DEFAULT), $validador->getDireccion(), '', '');
+            $usuario = new Usuario($id, $validador->getNombre(), $validador->getDocumento(), $validador->getTelefono(), $validador->getEmail(), password_hash($validador->getClave(), PASSWORD_DEFAULT), $validador->getDireccion(), '', '');
             $usuario_insertado = RepositorioUsuario:: insertarUsuario(Conexion:: getConexion(), $usuario);
 
             if ($usuario_insertado) {

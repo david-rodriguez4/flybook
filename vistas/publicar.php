@@ -72,8 +72,56 @@ if (isset($_POST['publicar'])) {
 include_once 'plantilla/documento-declaracion.inc.php';
 include_once 'plantilla/navbar.inc.php';
 ?>
-
+<br>
 <div class="container">
+    <div class="container is-max-desktop">
+        <div class="notification is-warning is-light">
+            <p>Recuerda que el precio del libro no incluye el costo de la transacción. Por lo que descontaremos el precio de la transacción del total del precio del libro.</p>
+            <p>Haz click <a onclick="show_table()">aquí</a> para ver los precios de transacción de Baloto.</p>
+            <table id="tabla_precios" class="table is-narrow is-bordered">
+                <thead>
+                <tr class="trhead">
+                    <th>Límite</th>
+                    <th>Precio</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="trbody">
+                    <td>Hasta $50.000</td>
+                    <td>$4.700</td>
+                </tr>
+                <tr class="trbody">
+                    <td>Hasta $100.000</td>
+                    <td>$6.000</td>
+                </tr>
+                <tr class="trbody">
+                    <td>Hasta $150.000</td>
+                    <td>$7.500</td>
+                </tr>
+                <tr class="trbody">
+                    <td>Hasta $200.000</td>
+                    <td>$8.300</td>
+                </tr>
+                <tr class="trbody">
+                    <td>Hasta $250.000</td>
+                    <td>$8.900</td>
+                </tr>
+                <tr class="trbody">
+                    <td>Hasta $300.000</td>
+                    <td>$9.400</td>
+                </tr>
+                <tr class="trbody">
+                    <td>Hasta $350.000</td>
+                    <td>$9.900</td>
+                </tr>
+                <tr class="trbody">
+                    <td>Hasta $400.000</td>
+                    <td>$10.400</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-2"></div>
         <div class="col-md-8">
@@ -96,7 +144,11 @@ include_once 'plantilla/navbar.inc.php';
         <div class="col-md-2"></div>
     </div>
 </div>
-
+<script type="text/javascript">
+    function show_table() {
+        document.getElementById("tabla_precios").style.display = "table";
+    }
+</script>
 <?php
 include_once 'plantilla/documento-cierre.inc.php';
 ?>

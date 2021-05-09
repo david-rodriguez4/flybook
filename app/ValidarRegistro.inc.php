@@ -9,34 +9,37 @@ class ValidarRegistro
     private $aviso_cierre;
 
     private $nombre;
-    private $apellido;
+    private $documento;
+    private $telefono;
     private $email;
     private $clave;
     private $direccion;
-    private $estado;
 
     private $error_nombre;
-    private $error_apellido;
+    private $error_documento;
+    private $error_telefono;
     private $error_email;
     private $error_clave1;
     private $error_clave2;
     private $error_direccion;
 
-    public function __construct($nombre, $apellido, $email, $clave1, $clave2, $direccion, $conexion)
+    public function __construct($nombre, $documento, $telefono, $email, $clave1, $clave2, $direccion, $conexion)
     {
 
         $this->aviso_inicio = "<div class='panel-block'><div class='message is-danger'><div class='message-body' role='alert'>";
         $this->aviso_cierre = "</div></div></div>";
 
         $this->nombre = "";
-        $this->apellido = "";
+        $this->documento = "";
+        $this->telefono = "";
         $this->email = "";
         $this->clave = "";
         $this->direccion = "";
         $this->estado = "";
 
         $this->error_nombre = $this->validar_nombre($nombre);
-        $this->error_apellido = $this->validar_apellido($apellido);
+        $this->error_documento = $this->validar_documento($documento);
+        $this->error_telefono = $this->validar_telefono($telefono);
         $this->error_email = $this->validar_email($conexion, $email);
         $this->error_clave1 = $this->validar_clave1($clave1);
         $this->error_clave2 = $this->validar_clave2($clave1, $clave2);
@@ -66,12 +69,22 @@ class ValidarRegistro
         return "";
     }
 
-    private function validar_apellido($apellido)
+    private function validar_documento($documento)
     {
-        if (!$this->variable_iniciada($apellido)) {
-            return "Debes escribir tu apellido.";
+        if (!$this->variable_iniciada($documento)) {
+            return "Debes escribir tu documento de identidad.";
         } else {
-            $this->apellido = $apellido;
+            $this->documento = $documento;
+        }
+        return "";
+    }
+
+    private function validar_telefono($telefono)
+    {
+        if (!$this->variable_iniciada($telefono)) {
+            return "Debes escribir tu número de teléfono celular.";
+        } else {
+            $this->telefono = $telefono;
         }
         return "";
     }
@@ -135,9 +148,14 @@ class ValidarRegistro
         return $this->nombre;
     }
 
-    public function getApellido()
+    public function getDocumento()
     {
-        return $this->apellido;
+        return $this->documento;
+    }
+
+    public function getTelefono()
+    {
+        return $this->telefono;
     }
 
     public function getEmail()
@@ -187,10 +205,17 @@ class ValidarRegistro
         }
     }
 
-    public function mostrarErrorApellido()
+    public function mostrarErrorDocumento()
     {
-        if ($this->error_apellido !== "") {
-            echo $this->aviso_inicio . $this->error_apellido . $this->aviso_cierre;
+        if ($this->error_documento !== "") {
+            echo $this->aviso_inicio . $this->error_documento . $this->aviso_cierre;
+        }
+    }
+
+    public function mostrarErrorTelefono()
+    {
+        if ($this->error_telefono !== "") {
+            echo $this->aviso_inicio . $this->error_telefono . $this->aviso_cierre;
         }
     }
 
@@ -224,7 +249,7 @@ class ValidarRegistro
 
     public function registroValido()
     {
-        if ($this->error_nombre === "" && $this->error_apellido === "" && $this->error_email === "" && $this->error_clave1 === "" && $this->error_clave2 === "" && $this->error_direccion === "") {
+        if ($this->error_nombre === "" && $this->error_documento === "" && $this->error_telefono === "" && $this->error_email === "" && $this->error_clave1 === "" && $this->error_clave2 === "" && $this->error_direccion === "") {
             return true;
         } else {
             return false;
